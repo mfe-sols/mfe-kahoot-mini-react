@@ -58,6 +58,12 @@ export type AppViewModel = {
     hostNext: string;
     hostFinishing: string;
     answerSending: string;
+    answerStateReady: string;
+    answerStateSelected: string;
+    answerStateLocked: string;
+    answerHintReady: string;
+    answerHintSelected: string;
+    answerHintLocked: string;
     hostActionError: string;
     leaderboardTitle: string;
     leaderboardSubtitle: string;
@@ -152,6 +158,12 @@ export const createPresenter = (model: AppModel): AppViewModel => ({
     hostNext: trKahootMini(toDomainKey("hostNext"), "hostNext"),
     hostFinishing: trKahootMini(toDomainKey("hostFinishing"), "hostFinishing"),
     answerSending: trKahootMini(toDomainKey("answerSending"), "answerSending"),
+    answerStateReady: trKahootMini(toDomainKey("answerStateReady"), "answerStateReady"),
+    answerStateSelected: trKahootMini(toDomainKey("answerStateSelected"), "answerStateSelected"),
+    answerStateLocked: trKahootMini(toDomainKey("answerStateLocked"), "answerStateLocked"),
+    answerHintReady: trKahootMini(toDomainKey("answerHintReady"), "answerHintReady"),
+    answerHintSelected: trKahootMini(toDomainKey("answerHintSelected"), "answerHintSelected"),
+    answerHintLocked: trKahootMini(toDomainKey("answerHintLocked"), "answerHintLocked"),
     hostActionError: trKahootMini(toDomainKey("hostActionError"), "hostActionError"),
     leaderboardTitle: trKahootMini(toDomainKey("leaderboardTitle"), "leaderboardTitle"),
     leaderboardSubtitle: trKahootMini(toDomainKey("leaderboardSubtitle"), "leaderboardSubtitle"),

@@ -98,16 +98,17 @@ const frostPanelStyle = {
 
 const answerButtonBase = {
   border: "none",
-  borderRadius: "18px",
+  borderRadius: "22px",
   color: "#fff",
   cursor: "pointer",
   display: "flex",
   flexDirection: "column" as const,
-  gap: "8px",
-  minHeight: "104px",
-  padding: "16px",
+  justifyContent: "space-between" as const,
+  gap: "16px",
+  minHeight: "148px",
+  padding: "18px",
   textAlign: "left" as const,
-  transition: "transform 180ms ease, opacity 180ms ease, box-shadow 180ms ease",
+  transition: "transform 180ms ease, opacity 180ms ease, box-shadow 180ms ease, border-color 180ms ease",
 };
 
 const findChoiceText = (question: QuizQuestion, answerId: string | null, fallback: string) =>
@@ -532,6 +533,7 @@ export const AppView = ({
   const quizTitle = pinLookup?.quiz?.title ?? pinLookup?.session.quizId ?? "Quiz";
   const quizDescription = pinLookup?.quiz?.description ?? introBody;
   const quizQuestionCount = activeQuestions.length;
+  const pinPreviewQuestionCount = pinLookup?.quiz?.questions?.length ?? null;
   const quizTimer = pinLookup?.quiz?.timePerQuestionSec ?? timePerQuestionSec;
   const snapshotPhase = snapshot?.state?.phase ?? pinLookup?.snapshot?.state?.phase ?? "lobby";
   const snapshotCloseReason = snapshot?.state?.closeReason ?? pinLookup?.snapshot?.state?.closeReason ?? null;
@@ -1276,7 +1278,9 @@ export const AppView = ({
                       <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(226,232,240,0.72)" }}>
                         {labels.pinQuizQuestions}
                       </div>
-                      <div style={{ marginTop: "8px", fontSize: "26px", fontWeight: 900 }}>15</div>
+                      <div style={{ marginTop: "8px", fontSize: "26px", fontWeight: 900 }}>
+                        {pinPreviewQuestionCount ?? "—"}
+                      </div>
                     </div>
                   </div>
                   <div
@@ -1532,6 +1536,8 @@ export const AppView = ({
                       <strong style={{ color: "#0f172a" }}>{labels.pinLabel}:</strong> {currentPin}
                       <br />
                       <strong style={{ color: "#0f172a" }}>{labels.pinQuizTitle}:</strong> {quizTitle}
+                      <br />
+                      <strong style={{ color: "#0f172a" }}>{labels.pinQuizQuestions}:</strong> {quizQuestionCount}
                     </div>
 
                     <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
@@ -2040,7 +2046,7 @@ export const AppView = ({
                   style={{
                     display: "grid",
                     gap: "12px",
-                    gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+                    gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
                   }}
                 >
                   {currentQuestion.choices.map((choice, index) => {
@@ -2048,6 +2054,52 @@ export const AppView = ({
                     const isCorrect = choice.id === currentQuestion.correctAnswerId;
                     const isIncorrectReveal = revealed && isSelected && !isCorrect;
                     const isCorrectReveal = revealed && isCorrect;
+                    const isLockedSelection = !revealed && isCurrentQuestionLocked && isSelected;
+                    const statusText = revealed
+                      ? isCorrectReveal
+                        ? labels.correctState
+                        : isIncorrectReveal
+                        ? labels.incorrectState
+                        : labels.answerStateLocked
+                      : isSelected
+                      ? isCurrentQuestionLocked
+                        ? labels.answerStateLocked
+                        : labels.answerStateSelected
+                      : labels.answerStateReady;
+                    const helperText = revealed
+                      ? isCorrectReveal
+                        ? labels.correctAnswer
+                        : isIncorrectReveal
+                        ? labels.yourAnswer
+                        : labels.answerHintLocked
+                      : isSelected
+                      ? isCurrentQuestionLocked
+                        ? labels.answerHintLocked
+                        : labels.answerHintSelected
+                      : labels.answerHintReady;
+                    const buttonBackground = revealed
+                      ? isCorrectReveal
+                        ? "linear-gradient(145deg, #15803d 0%, #22c55e 100%)"
+                        : isIncorrectReveal
+                        ? "linear-gradient(145deg, #b91c1c 0%, #ef4444 100%)"
+                        : "linear-gradient(145deg, rgba(51,65,85,0.92) 0%, rgba(71,85,105,0.92) 100%)"
+                      : isSelected
+                      ? `linear-gradient(145deg, ${answerPalette[index % answerPalette.length]} 0%, rgba(15,23,42,0.92) 130%)`
+                      : `linear-gradient(145deg, ${answerPalette[index % answerPalette.length]} 0%, rgba(15,23,42,0.82) 130%)`;
+                    const badgeBackground = revealed
+                      ? "rgba(255,255,255,0.18)"
+                      : isSelected
+                      ? "rgba(255,255,255,0.2)"
+                      : "rgba(255,255,255,0.12)";
+                    const statusBackground = revealed
+                      ? isCorrectReveal
+                        ? "rgba(220,252,231,0.18)"
+                        : isIncorrectReveal
+                        ? "rgba(254,226,226,0.18)"
+                        : "rgba(255,255,255,0.14)"
+                      : isSelected
+                      ? "rgba(255,255,255,0.2)"
+                      : "rgba(255,255,255,0.12)";
 
                     return (
                       <button
@@ -2061,24 +2113,70 @@ export const AppView = ({
                         }}
                         style={{
                           ...answerButtonBase,
-                          background: answerPalette[index % answerPalette.length],
+                          background: buttonBackground,
                           opacity: revealed && !isSelected && !isCorrect ? 0.72 : 1,
-                          border: isSelected ? "2px solid rgba(255, 255, 255, 0.85)" : "2px solid rgba(255, 255, 255, 0.18)",
+                          border: isSelected ? "2px solid rgba(255, 255, 255, 0.92)" : "2px solid rgba(255, 255, 255, 0.18)",
                           boxShadow: isCorrectReveal
-                            ? "0 0 0 3px rgba(34, 197, 94, 0.8)"
+                            ? "0 0 0 3px rgba(34, 197, 94, 0.85), 0 24px 36px rgba(21, 128, 61, 0.26)"
                             : isIncorrectReveal
-                            ? "0 0 0 3px rgba(255, 255, 255, 0.65)"
+                            ? "0 0 0 3px rgba(255, 255, 255, 0.7), 0 24px 36px rgba(185, 28, 28, 0.22)"
+                            : isSelected
+                            ? "0 24px 36px rgba(15, 23, 42, 0.24)"
                             : "0 18px 30px rgba(15, 23, 42, 0.12)",
-                          transform: isSelected ? "translateY(-2px)" : "translateY(0)",
+                          transform: isSelected ? "translateY(-3px) scale(1.01)" : "translateY(0)",
                         }}
                         disabled={revealed || isCurrentQuestionSubmitting || isCurrentQuestionLocked}
                       >
-                        <span style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.04em" }}>
-                          {choice.label}
-                        </span>
-                        <span style={{ fontSize: "18px", fontWeight: 700, lineHeight: 1.35 }}>
-                          {choice.text}
-                        </span>
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "flex-start",
+                            justifyContent: "space-between",
+                            gap: "12px",
+                          }}
+                        >
+                          <span
+                            style={{
+                              minWidth: "42px",
+                              height: "42px",
+                              display: "inline-grid",
+                              placeItems: "center",
+                              borderRadius: "14px",
+                              background: badgeBackground,
+                              border: "1px solid rgba(255,255,255,0.18)",
+                              fontSize: "16px",
+                              fontWeight: 900,
+                              letterSpacing: "0.04em",
+                            }}
+                          >
+                            {choice.label}
+                          </span>
+                          <span
+                            style={{
+                              display: "inline-flex",
+                              alignItems: "center",
+                              borderRadius: "999px",
+                              padding: "7px 10px",
+                              background: statusBackground,
+                              border: "1px solid rgba(255,255,255,0.16)",
+                              fontSize: "11px",
+                              fontWeight: 800,
+                              letterSpacing: "0.06em",
+                              textTransform: "uppercase",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            {statusText}
+                          </span>
+                        </div>
+                        <div style={{ display: "grid", gap: "10px" }}>
+                          <span style={{ fontSize: "20px", fontWeight: 800, lineHeight: 1.35 }}>
+                            {choice.text}
+                          </span>
+                          <span style={{ fontSize: "13px", lineHeight: 1.55, color: "rgba(255,255,255,0.88)" }}>
+                            {helperText}
+                          </span>
+                        </div>
                       </button>
                     );
                   })}
@@ -2310,7 +2408,7 @@ export const AppView = ({
                       style={{
                         display: "grid",
                         gap: "10px",
-                        gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
+                        gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
                       }}
                     >
                       <div

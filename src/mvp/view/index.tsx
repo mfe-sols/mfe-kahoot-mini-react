@@ -2014,53 +2014,6 @@ export const AppView = ({
                     </div>
                   </div>
 
-                  <div
-                    style={{
-                      display: "grid",
-                      gap: "12px",
-                      gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
-                    }}
-                  >
-                    <div
-                      style={{
-                        borderRadius: "18px",
-                        padding: "16px",
-                        background: "rgba(255,255,255,0.09)",
-                        border: "1px solid rgba(255,255,255,0.12)",
-                      }}
-                    >
-                      <div style={{ fontSize: "11px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "rgba(226,232,240,0.72)" }}>
-                        {labels.score}
-                      </div>
-                      <div style={{ marginTop: "8px", fontSize: "28px", fontWeight: 900 }}>{currentPlayerScore}</div>
-                    </div>
-                    <div
-                      style={{
-                        borderRadius: "18px",
-                        padding: "16px",
-                        background: "rgba(255,255,255,0.09)",
-                        border: "1px solid rgba(255,255,255,0.12)",
-                      }}
-                    >
-                      <div style={{ fontSize: "11px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "rgba(226,232,240,0.72)" }}>
-                        {labels.pinQuizTimer}
-                      </div>
-                      <div style={{ marginTop: "8px", fontSize: "28px", fontWeight: 900 }}>{activeTimePerQuestion}s</div>
-                    </div>
-                    <div
-                      style={{
-                        borderRadius: "18px",
-                        padding: "16px",
-                        background: "rgba(255,255,255,0.09)",
-                        border: "1px solid rgba(255,255,255,0.12)",
-                      }}
-                    >
-                      <div style={{ fontSize: "11px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "rgba(226,232,240,0.72)" }}>
-                        {labels.joinedRealtime}
-                      </div>
-                      <div style={{ marginTop: "8px", fontSize: "22px", fontWeight: 900 }}>{getRealtimeLabel(streamState)}</div>
-                    </div>
-                  </div>
                 </div>
 
                 <div
@@ -2170,6 +2123,65 @@ export const AppView = ({
                 {playApiError ? (
                   <div style={{ color: "#b91c1c", fontSize: "14px", fontWeight: 700 }}>{playApiError}</div>
                 ) : null}
+              </div>
+            </section>
+          ) : null}
+
+          {phase === "playing" ? (
+            <section
+              style={{
+                ...panelStyle,
+                display: "grid",
+                gap: "12px",
+                background: "linear-gradient(180deg, rgba(248,250,252,0.96) 0%, rgba(241,245,249,0.92) 100%)",
+              }}
+            >
+              <div
+                style={{
+                  display: "grid",
+                  gap: "12px",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
+                }}
+              >
+                <div
+                  style={{
+                    borderRadius: "18px",
+                    padding: "16px",
+                    background: "rgba(37, 99, 235, 0.08)",
+                    border: "1px solid rgba(59, 130, 246, 0.14)",
+                  }}
+                >
+                  <div style={{ fontSize: "11px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "#64748b" }}>
+                    {labels.score}
+                  </div>
+                  <div style={{ marginTop: "8px", fontSize: "28px", fontWeight: 900, color: "#0f172a" }}>{currentPlayerScore}</div>
+                </div>
+                <div
+                  style={{
+                    borderRadius: "18px",
+                    padding: "16px",
+                    background: "rgba(14, 165, 233, 0.08)",
+                    border: "1px solid rgba(14, 165, 233, 0.14)",
+                  }}
+                >
+                  <div style={{ fontSize: "11px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "#64748b" }}>
+                    {labels.pinQuizTimer}
+                  </div>
+                  <div style={{ marginTop: "8px", fontSize: "28px", fontWeight: 900, color: "#0f172a" }}>{activeTimePerQuestion}s</div>
+                </div>
+                <div
+                  style={{
+                    borderRadius: "18px",
+                    padding: "16px",
+                    background: "rgba(20, 184, 166, 0.08)",
+                    border: "1px solid rgba(20, 184, 166, 0.14)",
+                  }}
+                >
+                  <div style={{ fontSize: "11px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em", color: "#64748b" }}>
+                    {labels.joinedRealtime}
+                  </div>
+                  <div style={{ marginTop: "8px", fontSize: "22px", fontWeight: 900, color: "#0f172a" }}>{getRealtimeLabel(streamState)}</div>
+                </div>
               </div>
             </section>
           ) : null}
@@ -2298,7 +2310,7 @@ export const AppView = ({
                       style={{
                         display: "grid",
                         gap: "10px",
-                        gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+                        gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
                       }}
                     >
                       <div

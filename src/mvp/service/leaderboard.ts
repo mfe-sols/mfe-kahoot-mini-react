@@ -5,6 +5,15 @@ export type KahootMiniLeaderboardResponse = {
   topPlayers?: KahootMiniPlayerSnapshot[];
 };
 
+type ApiErrorPayload = {
+  message?: string;
+};
+
+const readApiError = async (response: Response, fallbackMessage: string) => {
+  const payload = (await response.json().catch(() => ({}))) as ApiErrorPayload;
+  return payload.message ?? fallbackMessage;
+};
+
 export const fetchLeaderboard = async (pin: string): Promise<KahootMiniLeaderboardResponse> => {
   const controller = new AbortController();
   const timeoutId = window.setTimeout(() => controller.abort(), 10000);
@@ -20,7 +29,9 @@ export const fetchLeaderboard = async (pin: string): Promise<KahootMiniLeaderboa
   });
 
   if (!response.ok) {
-    throw new Error(`Leaderboard request failed with status ${response.status}`);
+    throw new Error(
+      await readApiError(response, `Leaderboard request failed with status ${response.status}`)
+    );
   }
 
   return (await response.json()) as KahootMiniLeaderboardResponse;

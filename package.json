@@ -1,6 +1,6 @@
 {
   "name": "@org/mfe-kahoot-mini-react",
-  "packageManager": "pnpm@10.15.1",
+  "packageManager": "pnpm@10.26.1",
   "engines": {
     "node": "20.x"
   },

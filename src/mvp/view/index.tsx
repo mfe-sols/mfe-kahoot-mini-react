@@ -480,6 +480,7 @@ export const AppView = ({
   const leaderboardRetryTimerRef = useRef<number | null>(null);
   const lastSeenResetTokenRef = useRef(readLatestSessionResetToken());
   const lastAutoPinRef = useRef("");
+  const lastPrejoinValidationPinRef = useRef("");
 
   const resetToPinEntry = () => {
     persistPrejoinLookup(null);
@@ -692,6 +693,60 @@ export const AppView = ({
 
     persistPrejoinLookup(pinLookup);
   }, [phase, pinLookup, joinedPlayer?.id]);
+
+  useEffect(() => {
+    if (phase !== "name" || joinedPlayer?.id || !pinLookup?.session?.pin) {
+      lastPrejoinValidationPinRef.current = "";
+      return;
+    }
+
+    const restoringStoredLookup = enteredPin === pinLookup.session.pin;
+    if (!restoringStoredLookup) {
+      lastPrejoinValidationPinRef.current = "";
+      return;
+    }
+
+    if (lastPrejoinValidationPinRef.current === pinLookup.session.pin) {
+      return;
+    }
+
+    lastPrejoinValidationPinRef.current = pinLookup.session.pin;
+    let cancelled = false;
+
+    void (async () => {
+      try {
+        const latestLookup = await fetchPinSessionByPin(pinLookup.session.pin);
+        const latestSnapshot = latestLookup.snapshot ?? null;
+
+        if (cancelled) return;
+
+        if (!isJoinOpen(latestLookup, latestSnapshot)) {
+          resetToPinEntry();
+          setPinError(labels.joinClosed);
+          return;
+        }
+
+        setPinLookup(latestLookup);
+        setSnapshot(latestSnapshot);
+        persistPrejoinLookup(latestLookup);
+      } catch (error) {
+        if (cancelled) return;
+
+        const message = error instanceof Error ? error.message : labels.pinUnavailable;
+        if (isPinGoneError(message)) {
+          resetToPinEntry();
+          setPinError(labels.pinUnavailable);
+          return;
+        }
+
+        setNameError(message);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [phase, pinLookup, joinedPlayer?.id, enteredPin, labels.joinClosed, labels.pinUnavailable]);
 
   useEffect(() => {
     if (!isReloadGuardActive || typeof window === "undefined") return undefined;

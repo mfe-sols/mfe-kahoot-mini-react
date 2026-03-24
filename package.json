@@ -1,5 +1,6 @@
 {
   "name": "@org/mfe-kahoot-mini-react",
+  "packageManager": "pnpm@10.15.1",
   "scripts": {
     "start": "node ../../scripts/require-port.js 19113 && webpack serve --port 19113 --env standalone",
     "start:standalone": "webpack serve --env standalone",

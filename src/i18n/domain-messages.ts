@@ -12,7 +12,7 @@ registerMessagesAll({
     "mfe.mfe-kahoot-mini-react.pinSubtitle":
       "Enter the active session PIN to validate the room and load quiz details before joining.",
     "mfe.mfe-kahoot-mini-react.pinLabel": "Game PIN",
-    "mfe.mfe-kahoot-mini-react.pinPlaceholder": "Enter 6-digit PIN",
+    "mfe.mfe-kahoot-mini-react.pinPlaceholder": "PIN",
     "mfe.mfe-kahoot-mini-react.pinContinue": "Continue",
     "mfe.mfe-kahoot-mini-react.pinHint":
       "The quiz is fetched only after the player submits a valid PIN from the active session.",
@@ -110,7 +110,7 @@ registerMessagesAll({
     "mfe.mfe-kahoot-mini-react.pinSubtitle":
       "Nhập mã PIN phiên đang chạy để kiểm tra phòng và lấy thông tin quiz trước khi vào game.",
     "mfe.mfe-kahoot-mini-react.pinLabel": "Mã PIN",
-    "mfe.mfe-kahoot-mini-react.pinPlaceholder": "Nhập mã PIN 6 số",
+    "mfe.mfe-kahoot-mini-react.pinPlaceholder": "PIN",
     "mfe.mfe-kahoot-mini-react.pinContinue": "Tiếp tục",
     "mfe.mfe-kahoot-mini-react.pinHint":
       "Quiz chỉ được lấy sau khi người chơi gửi mã PIN hợp lệ từ phiên đang chạy.",

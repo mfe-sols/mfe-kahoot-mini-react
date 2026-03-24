@@ -2060,34 +2060,79 @@ export const AppView = ({
                 {playApiError ? (
                   <div style={{ color: "#b91c1c", fontSize: "14px", fontWeight: 700 }}>{playApiError}</div>
                 ) : null}
-                {revealed && latestAnswer ? (
-                  <div
-                    style={{
-                      display: "grid",
-                      gap: "6px",
-                      borderRadius: "18px",
-                      background: "linear-gradient(180deg, rgba(248,250,252,0.96) 0%, rgba(241,245,249,0.92) 100%)",
-                      border: "1px solid rgba(148, 163, 184, 0.16)",
-                      padding: "14px 16px",
-                    }}
-                  >
-                    <div style={{ fontWeight: 800 }}>
-                      {latestAnswer.selectedId === null
-                        ? labels.timeoutState
-                        : latestAnswer.isCorrect
-                        ? labels.correctState
-                        : labels.incorrectState}
-                    </div>
-                    <div>
-                      {labels.correctAnswer}:{" "}
-                      {findChoiceText(currentQuestion, currentQuestion.correctAnswerId, labels.unanswered)}
-                    </div>
-                    <div>
-                      {labels.yourAnswer}:{" "}
-                      {findChoiceText(currentQuestion, latestAnswer.selectedId, labels.unanswered)}
-                    </div>
-                  </div>
-                ) : null}
+              </div>
+            </section>
+          ) : null}
+
+          {phase === "playing" && revealed && latestAnswer ? (
+            <section
+              style={{
+                ...panelStyle,
+                display: "grid",
+                gap: "10px",
+                borderRadius: "20px",
+                background:
+                  latestAnswer.selectedId === null
+                    ? "linear-gradient(180deg, rgba(255,251,235,0.96) 0%, rgba(254,243,199,0.88) 100%)"
+                    : latestAnswer.isCorrect
+                    ? "linear-gradient(180deg, rgba(236,253,245,0.96) 0%, rgba(209,250,229,0.9) 100%)"
+                    : "linear-gradient(180deg, rgba(254,242,242,0.96) 0%, rgba(254,226,226,0.9) 100%)",
+                border:
+                  latestAnswer.selectedId === null
+                    ? "1px solid rgba(245, 158, 11, 0.22)"
+                    : latestAnswer.isCorrect
+                    ? "1px solid rgba(34, 197, 94, 0.22)"
+                    : "1px solid rgba(248, 113, 113, 0.22)",
+              }}
+            >
+              <div
+                style={{
+                  display: "inline-flex",
+                  width: "fit-content",
+                  alignItems: "center",
+                  borderRadius: "999px",
+                  padding: "7px 12px",
+                  fontSize: "11px",
+                  fontWeight: 800,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  background:
+                    latestAnswer.selectedId === null
+                      ? "rgba(245, 158, 11, 0.14)"
+                      : latestAnswer.isCorrect
+                      ? "rgba(22, 163, 74, 0.12)"
+                      : "rgba(220, 38, 38, 0.12)",
+                  color:
+                    latestAnswer.selectedId === null
+                      ? "#b45309"
+                      : latestAnswer.isCorrect
+                      ? "#166534"
+                      : "#b91c1c",
+                }}
+              >
+                {labels.yourResultLabel}
+              </div>
+              <div
+                style={{
+                  display: "grid",
+                  gap: "6px",
+                }}
+              >
+                <div style={{ fontSize: "24px", fontWeight: 900, color: "#0f172a" }}>
+                  {latestAnswer.selectedId === null
+                    ? labels.timeoutState
+                    : latestAnswer.isCorrect
+                    ? labels.correctState
+                    : labels.incorrectState}
+                </div>
+                <div style={{ color: "#334155", lineHeight: 1.7 }}>
+                  {labels.correctAnswer}:{" "}
+                  {findChoiceText(currentQuestion, currentQuestion.correctAnswerId, labels.unanswered)}
+                </div>
+                <div style={{ color: "#334155", lineHeight: 1.7 }}>
+                  {labels.yourAnswer}:{" "}
+                  {findChoiceText(currentQuestion, latestAnswer.selectedId, labels.unanswered)}
+                </div>
               </div>
             </section>
           ) : null}

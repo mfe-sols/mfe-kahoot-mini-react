@@ -94,20 +94,44 @@ type KahootMiniPlaySnapshotResponse = {
   snapshot?: KahootMiniSnapshot;
 };
 
+const normalizeApiBaseUrl = (value?: string | null) => value?.trim().replace(/\/+$/, "") ?? "";
+
+const isLocalHostname = (value: string) => /^(localhost|127\.0\.0\.1|0\.0\.0\.0)$/i.test(value);
+
+const isLocalApiBaseUrl = (value: string) =>
+  /^https?:\/\/(localhost|127\.0\.0\.1|0\.0\.0\.0)(:\d+)?(\/|$)/i.test(value);
+
 export const resolveApiBaseUrl = () => {
+  const browserLocation = typeof window !== "undefined" ? window.location : null;
+  const isLocalPage = browserLocation ? isLocalHostname(browserLocation.hostname) : false;
+
   if (typeof document !== "undefined") {
-    const metaAuthBaseUrl = document
-      .querySelector('meta[name="auth-base-url"]')
-      ?.getAttribute("content")
-      ?.trim();
-    if (metaAuthBaseUrl) return metaAuthBaseUrl.replace(/\/$/, "");
+    const metaAuthBaseUrl = normalizeApiBaseUrl(
+      document.querySelector('meta[name="auth-base-url"]')?.getAttribute("content")
+    );
+
+    if (metaAuthBaseUrl && (!isLocalApiBaseUrl(metaAuthBaseUrl) || isLocalPage)) {
+      return metaAuthBaseUrl;
+    }
   }
 
-  return "http://localhost:7272";
+  if (isLocalPage) {
+    return "http://localhost:7272";
+  }
+
+  return "";
+};
+
+const requireApiBaseUrl = () => {
+  const baseUrl = resolveApiBaseUrl();
+  if (!baseUrl) {
+    throw new Error("API base URL is not configured for this environment.");
+  }
+  return baseUrl;
 };
 
 export const fetchPinSessionByPin = async (pin: string): Promise<KahootMiniPinLookupResponse> => {
-  const response = await fetch(`${resolveApiBaseUrl()}/api/kahoot-mini/pin?pin=${encodeURIComponent(pin)}`, {
+  const response = await fetch(`${requireApiBaseUrl()}/api/kahoot-mini/pin?pin=${encodeURIComponent(pin)}`, {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -128,7 +152,7 @@ export const fetchPinSessionByPin = async (pin: string): Promise<KahootMiniPinLo
 };
 
 export const fetchPlaySnapshot = async (pin: string): Promise<KahootMiniSnapshot> => {
-  const response = await fetch(`${resolveApiBaseUrl()}/api/kahoot-mini/play?pin=${encodeURIComponent(pin)}`, {
+  const response = await fetch(`${requireApiBaseUrl()}/api/kahoot-mini/play?pin=${encodeURIComponent(pin)}`, {
     method: "GET",
     headers: {
       Accept: "application/json",

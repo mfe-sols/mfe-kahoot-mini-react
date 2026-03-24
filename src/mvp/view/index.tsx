@@ -31,6 +31,7 @@ type RoundAnswer = {
 const DEVICE_KEY = "kahoot-mini-device-id";
 const SESSION_RESET_CHANNEL = "kahoot-mini-session-reset";
 const SESSION_RESET_STORAGE_KEY = "kahoot-mini-session-reset";
+const PREJOIN_LOOKUP_STORAGE_KEY = "kahoot-mini-prejoin-lookup";
 
 const answerPalette = ["#ef4444", "#3b82f6", "#f59e0b", "#10b981"];
 
@@ -299,6 +300,42 @@ const clearUrlJoinPin = () => {
   }
 };
 
+const isUsablePinLookup = (lookup: KahootMiniPinLookupResponse | null) => {
+  if (!lookup?.session?.pin) return false;
+  if (!lookup.session.expiresAt) return true;
+  const expiresAtMs = new Date(lookup.session.expiresAt).getTime();
+  return !Number.isNaN(expiresAtMs) && expiresAtMs > Date.now();
+};
+
+const readStoredPrejoinLookup = (): KahootMiniPinLookupResponse | null => {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.sessionStorage.getItem(PREJOIN_LOOKUP_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as KahootMiniPinLookupResponse;
+    if (!isUsablePinLookup(parsed)) {
+      window.sessionStorage.removeItem(PREJOIN_LOOKUP_STORAGE_KEY);
+      return null;
+    }
+    return parsed;
+  } catch {
+    return null;
+  }
+};
+
+const persistPrejoinLookup = (lookup: KahootMiniPinLookupResponse | null) => {
+  if (typeof window === "undefined") return;
+  try {
+    if (lookup && isUsablePinLookup(lookup)) {
+      window.sessionStorage.setItem(PREJOIN_LOOKUP_STORAGE_KEY, JSON.stringify(lookup));
+      return;
+    }
+    window.sessionStorage.removeItem(PREJOIN_LOOKUP_STORAGE_KEY);
+  } catch {
+    // ignore storage errors
+  }
+};
+
 const normalizeQuizQuestion = (question: KahootMiniQuizQuestion, index: number): QuizQuestion | null => {
   if (
     typeof question.id !== "number" ||
@@ -409,7 +446,8 @@ export const AppView = ({
   pointsPerCorrect,
   labels,
 }: Props): JSX.Element => {
-  const [phase, setPhase] = useState<Phase>("pin");
+  const initialPrejoinLookup = readStoredPrejoinLookup();
+  const [phase, setPhase] = useState<Phase>(initialPrejoinLookup ? "name" : "pin");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedAtRemainingSec, setSelectedAtRemainingSec] = useState<number | null>(null);
@@ -417,16 +455,16 @@ export const AppView = ({
   const [timeLeft, setTimeLeft] = useState(timePerQuestionSec);
   const [score, setScore] = useState(0);
   const [answers, setAnswers] = useState<RoundAnswer[]>([]);
-  const [enteredPin, setEnteredPin] = useState("");
+  const [enteredPin, setEnteredPin] = useState(initialPrejoinLookup?.session?.pin ?? "");
   const [pinError, setPinError] = useState("");
   const [isPinChecking, setIsPinChecking] = useState(false);
-  const [pinLookup, setPinLookup] = useState<KahootMiniPinLookupResponse | null>(null);
+  const [pinLookup, setPinLookup] = useState<KahootMiniPinLookupResponse | null>(initialPrejoinLookup);
   const [playerName, setPlayerName] = useState("");
   const [nameError, setNameError] = useState("");
   const [isJoining, setIsJoining] = useState(false);
   const [joinedPlayer, setJoinedPlayer] = useState<KahootMiniPlayer | null>(null);
   const [joinedReconnected, setJoinedReconnected] = useState(false);
-  const [snapshot, setSnapshot] = useState<KahootMiniSnapshot | null>(null);
+  const [snapshot, setSnapshot] = useState<KahootMiniSnapshot | null>(initialPrejoinLookup?.snapshot ?? null);
   const [streamUrl, setStreamUrl] = useState<string | null>(null);
   const [streamState, setStreamState] = useState<StreamState>("idle");
   const [lastPingAt, setLastPingAt] = useState<string | null>(null);
@@ -444,6 +482,7 @@ export const AppView = ({
   const lastAutoPinRef = useRef("");
 
   const resetToPinEntry = () => {
+    persistPrejoinLookup(null);
     setPhase("pin");
     setCurrentIndex(0);
     setSelectedId(null);
@@ -644,6 +683,15 @@ export const AppView = ({
       window.clearInterval(intervalId);
     };
   }, []);
+
+  useEffect(() => {
+    if (joinedPlayer?.id || phase !== "name" || !pinLookup) {
+      persistPrejoinLookup(null);
+      return;
+    }
+
+    persistPrejoinLookup(pinLookup);
+  }, [phase, pinLookup, joinedPlayer?.id]);
 
   useEffect(() => {
     if (!isReloadGuardActive || typeof window === "undefined") return undefined;
@@ -962,6 +1010,7 @@ export const AppView = ({
       const nextSnapshot = nextLookup.snapshot ?? null;
 
       if (!isJoinOpen(nextLookup, nextSnapshot)) {
+        persistPrejoinLookup(null);
         setPinLookup(null);
         setSnapshot(null);
         setPinError(labels.joinClosed);
@@ -981,8 +1030,10 @@ export const AppView = ({
       setSubmittingQuestionId(null);
       processedQuestionIdsRef.current.clear();
       submittedQuestionIdsRef.current.clear();
+      persistPrejoinLookup(nextLookup);
       setPhase("name");
     } catch {
+      persistPrejoinLookup(null);
       setPinLookup(null);
       setSnapshot(null);
       setPinError(labels.pinUnavailable);
@@ -1029,6 +1080,7 @@ export const AppView = ({
       setJoinedReconnected(payload.reconnected);
       setSnapshot(payload.snapshot ?? null);
       setStreamUrl(payload.streamUrl ? resolveStreamUrl(payload.streamUrl) : null);
+      persistPrejoinLookup(null);
       void resyncPlayState(pinLookup.session.pin);
       setPhase("intro");
     } catch (error) {
@@ -1062,6 +1114,7 @@ export const AppView = ({
         const nextSnapshot = nextLookup.snapshot ?? null;
 
         if (!isJoinOpen(nextLookup, nextSnapshot)) {
+          persistPrejoinLookup(null);
           setPinLookup(null);
           setSnapshot(null);
           setPinError(labels.joinClosed);
@@ -1082,8 +1135,10 @@ export const AppView = ({
         processedQuestionIdsRef.current.clear();
         submittedQuestionIdsRef.current.clear();
         clearUrlJoinPin();
+        persistPrejoinLookup(nextLookup);
         setPhase("name");
       } catch {
+        persistPrejoinLookup(null);
         setPinLookup(null);
         setSnapshot(null);
         setPinError(labels.pinUnavailable);

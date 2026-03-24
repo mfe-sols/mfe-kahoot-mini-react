@@ -71,12 +71,14 @@ export type KahootMiniPlayerSnapshot = {
   score?: number;
   correctAnswers?: number;
   answersCount?: number;
+  isOnline?: boolean;
 };
 
 export type KahootMiniSnapshot = {
   session?: KahootMiniPinSession;
   state?: KahootMiniState;
   players?: KahootMiniPlayerSnapshot[];
+  joinedPlayersCount?: number;
   connectedPlayerIds?: string[];
   connectedPlayersCount?: number;
   leaderboard?: KahootMiniPlayerSnapshot[];

@@ -541,8 +541,12 @@ export const AppView = ({
     snapshot?.currentQuestion?.timeLeftSec ?? snapshot?.currentQuestion?.remainingSec ?? activeTimePerQuestion;
   const snapshotQuestionIndex = resolveSnapshotQuestionIndex(snapshot ?? pinLookup?.snapshot, activeQuestions, currentIndex);
   const playersCount =
+    snapshot?.joinedPlayersCount ??
+    snapshot?.players?.length ??
     snapshot?.connectedPlayersCount ??
     snapshot?.connectedPlayerIds?.length ??
+    pinLookup?.snapshot?.joinedPlayersCount ??
+    pinLookup?.snapshot?.players?.length ??
     pinLookup?.snapshot?.connectedPlayersCount ??
     pinLookup?.snapshot?.connectedPlayerIds?.length ??
     snapshot?.players?.length ??

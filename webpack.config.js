@@ -5,12 +5,23 @@ const CopyPlugin = require("copy-webpack-plugin");
 const path = require("path");
 const webpack = require("webpack");
 
-// Load shared workspace .env first, then app-local .env (if any) to override.
-require("dotenv").config({ path: path.resolve(__dirname, "../../.env") });
-require("dotenv").config({
-  path: path.resolve(__dirname, ".env"),
-  override: true,
-});
+const loadEnvIfAvailable = () => {
+  try {
+    // `dotenv` is optional in standalone deploys such as Vercel.
+    const dotenv = require("dotenv");
+    dotenv.config({ path: path.resolve(__dirname, "../../.env") });
+    dotenv.config({
+      path: path.resolve(__dirname, ".env"),
+      override: true,
+    });
+  } catch (error) {
+    if (error && error.code !== "MODULE_NOT_FOUND") {
+      throw error;
+    }
+  }
+};
+
+loadEnvIfAvailable();
 
 module.exports = (webpackConfigEnv, argv) => {
   const findInstalledPackageDir = (packageName, startDir) => {

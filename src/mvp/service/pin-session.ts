@@ -94,6 +94,10 @@ type KahootMiniPlaySnapshotResponse = {
   snapshot?: KahootMiniSnapshot;
 };
 
+type ApiErrorPayload = {
+  message?: string;
+};
+
 const normalizeApiBaseUrl = (value?: string | null) => value?.trim().replace(/\/+$/, "") ?? "";
 
 const isLocalHostname = (value: string) => /^(localhost|127\.0\.0\.1|0\.0\.0\.0)$/i.test(value);
@@ -130,6 +134,11 @@ const requireApiBaseUrl = () => {
   return baseUrl;
 };
 
+const readApiError = async (response: Response, fallbackMessage: string) => {
+  const payload = (await response.json().catch(() => ({}))) as ApiErrorPayload;
+  return payload.message ?? fallbackMessage;
+};
+
 export const fetchPinSessionByPin = async (pin: string): Promise<KahootMiniPinLookupResponse> => {
   const response = await fetch(`${requireApiBaseUrl()}/api/kahoot-mini/pin?pin=${encodeURIComponent(pin)}`, {
     method: "GET",
@@ -139,7 +148,7 @@ export const fetchPinSessionByPin = async (pin: string): Promise<KahootMiniPinLo
   });
 
   if (!response.ok) {
-    throw new Error(`PIN lookup failed with status ${response.status}`);
+    throw new Error(await readApiError(response, `PIN lookup failed with status ${response.status}`));
   }
 
   const payload = (await response.json()) as KahootMiniPinLookupResponse;
@@ -160,7 +169,9 @@ export const fetchPlaySnapshot = async (pin: string): Promise<KahootMiniSnapshot
   });
 
   if (!response.ok) {
-    throw new Error(`Play snapshot request failed with status ${response.status}`);
+    throw new Error(
+      await readApiError(response, `Play snapshot request failed with status ${response.status}`)
+    );
   }
 
   const payload = (await response.json()) as KahootMiniPlaySnapshotResponse;

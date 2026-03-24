@@ -1,0 +1,33 @@
+{
+  "buildCommand": "pnpm run build:webpack",
+  "outputDirectory": "dist",
+  "installCommand": "pnpm install",
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET, OPTIONS" }
+      ]
+    },
+    {
+      "source": "/org-mfe-kahoot-mini-react.js",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, no-cache" },
+        { "key": "Content-Type", "value": "application/javascript; charset=utf-8" }
+      ]
+    },
+    {
+      "source": "/vendor/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/(.*)\\.css",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, no-cache" }
+      ]
+    }
+  ]
+}

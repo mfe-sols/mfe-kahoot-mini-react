@@ -1,0 +1,38 @@
+{
+  "name": "@org/mfe-kahoot-mini-react",
+  "scripts": {
+    "start": "node ../../scripts/require-port.js 19113 && webpack serve --port 19113 --env standalone",
+    "start:standalone": "webpack serve --env standalone",
+    "build": "concurrently pnpm:build:*",
+    "build:webpack": "webpack --mode=production",
+    "build:types": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "types": "dist/org-mfe-kahoot-mini-react.js.d.ts",
+  "dependencies": {
+    "@babel/runtime": "^7.28.6",
+    "@mfe-sols/i18n": "^0.1.1",
+    "@mfe-sols/ui-kit": "^0.1.5",
+    "@tanstack/react-query": "^5.62.0",
+    "@tanstack/query-core": "^5.62.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "single-spa": "^5.9.3",
+    "single-spa-react": "^6.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.3",
+    "@babel/plugin-transform-runtime": "^7.23.3",
+    "@babel/preset-env": "^7.23.3",
+    "@babel/preset-react": "^7.23.3",
+    "@babel/preset-typescript": "^7.23.3",
+    "concurrently": "^6.2.1",
+    "copy-webpack-plugin": "^13.0.1",
+    "typescript": "^5.5.4",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.0.0",
+    "webpack-merge": "^5.8.0",
+    "webpack-config-single-spa-react-ts": "^8.0.0"
+  }
+}

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mfe-kahoot-mini-react — Standalone Dev</title>
+  <!-- Unified CSS from system shell with safe local fallback -->
+  <script>
+    (function injectSystemStyles() {
+      var key = "mfe-system-origin:mfe-kahoot-mini-react";
+      var params = new URLSearchParams(window.location.search);
+
+      var normalizeOrigin = function (value) {
+        if (!value) return "";
+        try {
+          var parsed = new URL(value, window.location.origin);
+          if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return "";
+          return parsed.origin;
+        } catch (e) {
+          return "";
+        }
+      };
+
+      var isAllowedOrigin = function (origin) {
+        if (!origin) return false;
+        try {
+          var parsed = new URL(origin);
+          var host = parsed.hostname.toLowerCase();
+          if (host === "localhost" || host === "127.0.0.1") return true;
+          return host === "mfe-root-config.vercel.app";
+        } catch (e) {
+          return false;
+        }
+      };
+
+      var fromQuery = normalizeOrigin(
+        params.get("system-origin") || params.get("systemOrigin")
+      );
+      var fromStorage = "";
+      try {
+        fromStorage = normalizeOrigin(localStorage.getItem(key) || "");
+      } catch (e) {}
+
+      var fallbackOrigin =
+        window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+          ? "http://localhost:9000"
+          : "https://mfe-root-config.vercel.app";
+
+      var origin = isAllowedOrigin(fromQuery)
+        ? fromQuery
+        : isAllowedOrigin(fromStorage)
+        ? fromStorage
+        : fallbackOrigin;
+
+      try {
+        localStorage.setItem(key, origin);
+      } catch (e) {}
+
+      var versionRaw = params.get("system-css-version") || params.get("cssv") || "stable";
+      var version = /^[A-Za-z0-9._-]{1,64}$/.test(versionRaw) ? versionRaw : "stable";
+
+      if (origin !== window.location.origin) {
+        var preconnect = document.createElement("link");
+        preconnect.rel = "preconnect";
+        preconnect.href = origin;
+        preconnect.crossOrigin = "anonymous";
+        document.head.appendChild(preconnect);
+      }
+
+      var injectWithFallback = function (remotePath, localPath) {
+        var link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.crossOrigin = "anonymous";
+        link.referrerPolicy = "no-referrer";
+        link.href = origin + remotePath + "?v=" + encodeURIComponent(version);
+
+        var retried = false;
+        link.onerror = function () {
+          if (retried) return;
+          retried = true;
+          link.crossOrigin = "";
+          link.referrerPolicy = "";
+          link.href = localPath + "?v=" + encodeURIComponent(version);
+        };
+
+        document.head.appendChild(link);
+      };
+
+      injectWithFallback("/ui-kit.css", "/ui-kit.css");
+      injectWithFallback("/root-config.css", "/root-config.css");
+    })();
+  </script>
+  <style>
+    body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; }
+    #standalone-root { min-height: 100vh; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/systemjs@6.15.1/dist/system.min.js"></script>
+  <script type="systemjs-importmap">
+    {
+      "imports": {
+        "@org/mfe-kahoot-mini-react": "/org-mfe-kahoot-mini-react.js"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="standalone-root"></div>
+  <script>
+    (async function mountStandalone() {
+      const root = document.getElementById('standalone-root') || document.body;
+      const props = {
+        name: '@org/mfe-kahoot-mini-react',
+        domElement: root,
+      };
+
+      try {
+        if (typeof window.System === 'undefined' || typeof window.System.import !== 'function') {
+          throw new Error('SystemJS runtime is not available');
+        }
+
+        const app = await window.System.import('@org/mfe-kahoot-mini-react');
+        if (typeof app.bootstrap === 'function') {
+          await app.bootstrap(props);
+        }
+        if (typeof app.mount === 'function') {
+          await app.mount(props);
+        } else {
+          throw new Error('mount lifecycle not found in /org-mfe-kahoot-mini-react.js');
+        }
+
+        window.__mfeStandaloneUnmount = async function () {
+          if (typeof app.unmount === 'function') {
+            await app.unmount(props);
+          }
+        };
+      } catch (error) {
+        console.error('[standalone] Failed to mount @org/mfe-kahoot-mini-react', error);
+        const errorBox = document.createElement('div');
+        errorBox.style.padding = '24px';
+        errorBox.style.font = '14px/1.5 ui-sans-serif,system-ui,sans-serif';
+        errorBox.style.color = '#b42318';
+        errorBox.textContent = 'Failed to render standalone module. Check browser console.';
+        root.replaceChildren(errorBox);
+      }
+    })();
+  </script>
+</body>
+<!-- ── Dev Auth Panel ── -->
+<script>window.__MFE_REQUIRE_AUTH__ = false;</script>
+<script src="/dev-auth-panel.js"></script>
+</html>

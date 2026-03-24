@@ -1,0 +1,384 @@
+[
+  {
+    "id": "frontend-basics-15",
+    "slug": "frontend-basics-15",
+    "title": "Frontend Cơ Bản 15",
+    "description": "Bộ 15 câu hỏi nền tảng về HTML, CSS, JavaScript, TypeScript và single-spa, phù hợp cho mini game hỏi đáp ngắn.",
+    "language": "vi",
+    "timePerQuestionSec": 15,
+    "pointsPerCorrect": 100,
+    "questions": [
+      {
+        "id": 1,
+        "prompt": "Thẻ HTML nào dùng để tạo liên kết sang trang khác?",
+        "explanation": "Thẻ <a> là anchor, dùng để tạo hyperlink.",
+        "correctAnswerId": "a",
+        "choices": [
+          { "id": "a", "label": "A", "text": "<a>" },
+          { "id": "b", "label": "B", "text": "<link>" },
+          { "id": "c", "label": "C", "text": "<href>" },
+          { "id": "d", "label": "D", "text": "<nav>" }
+        ]
+      },
+      {
+        "id": 2,
+        "prompt": "Thuộc tính CSS nào đổi màu chữ?",
+        "explanation": "`color` điều khiển màu chữ, còn `background-color` là màu nền.",
+        "correctAnswerId": "b",
+        "choices": [
+          { "id": "a", "label": "A", "text": "font-color" },
+          { "id": "b", "label": "B", "text": "color" },
+          { "id": "c", "label": "C", "text": "text-style" },
+          { "id": "d", "label": "D", "text": "background-color" }
+        ]
+      },
+      {
+        "id": 3,
+        "prompt": "Hook React nào thường dùng để lưu state cục bộ của component?",
+        "explanation": "`useState` là hook cơ bản để lưu và cập nhật local state.",
+        "correctAnswerId": "c",
+        "choices": [
+          { "id": "a", "label": "A", "text": "useEffect" },
+          { "id": "b", "label": "B", "text": "useRef" },
+          { "id": "c", "label": "C", "text": "useState" },
+          { "id": "d", "label": "D", "text": "useContext" }
+        ]
+      },
+      {
+        "id": 4,
+        "prompt": "HTTP status code nào thường biểu thị request thành công?",
+        "explanation": "200 OK là mã phổ biến nhất cho một request thành công.",
+        "correctAnswerId": "d",
+        "choices": [
+          { "id": "a", "label": "A", "text": "404" },
+          { "id": "b", "label": "B", "text": "500" },
+          { "id": "c", "label": "C", "text": "302" },
+          { "id": "d", "label": "D", "text": "200" }
+        ]
+      },
+      {
+        "id": 5,
+        "prompt": "Hàm JavaScript nào biến object thành JSON string?",
+        "explanation": "`JSON.stringify` serialize object thành chuỗi JSON.",
+        "correctAnswerId": "b",
+        "choices": [
+          { "id": "a", "label": "A", "text": "JSON.parse" },
+          { "id": "b", "label": "B", "text": "JSON.stringify" },
+          { "id": "c", "label": "C", "text": "Object.toJson" },
+          { "id": "d", "label": "D", "text": "String.json" }
+        ]
+      },
+      {
+        "id": 6,
+        "prompt": "Method mảng nào trả về một mảng mới sau khi biến đổi từng phần tử?",
+        "explanation": "`map` tạo mảng mới với số lượng phần tử tương ứng.",
+        "correctAnswerId": "a",
+        "choices": [
+          { "id": "a", "label": "A", "text": "map" },
+          { "id": "b", "label": "B", "text": "forEach" },
+          { "id": "c", "label": "C", "text": "push" },
+          { "id": "d", "label": "D", "text": "splice" }
+        ]
+      },
+      {
+        "id": 7,
+        "prompt": "Trong CSS, cần khai báo gì để sắp xếp phần tử bằng Flexbox?",
+        "explanation": "Flexbox được bật bằng `display: flex` trên phần tử cha.",
+        "correctAnswerId": "c",
+        "choices": [
+          { "id": "a", "label": "A", "text": "position: flex" },
+          { "id": "b", "label": "B", "text": "layout: flex" },
+          { "id": "c", "label": "C", "text": "display: flex" },
+          { "id": "d", "label": "D", "text": "flex: true" }
+        ]
+      },
+      {
+        "id": 8,
+        "prompt": "single-spa được dùng chủ yếu để làm gì?",
+        "explanation": "single-spa giúp mount nhiều frontend app độc lập trong cùng một shell.",
+        "correctAnswerId": "d",
+        "choices": [
+          { "id": "a", "label": "A", "text": "Render video stream" },
+          { "id": "b", "label": "B", "text": "Kết nối database" },
+          { "id": "c", "label": "C", "text": "Biên dịch TypeScript" },
+          { "id": "d", "label": "D", "text": "Orchestrate nhiều microfrontend" }
+        ]
+      },
+      {
+        "id": 9,
+        "prompt": "API trình duyệt nào lưu dữ liệu key-value bền vững giữa các lần reload?",
+        "explanation": "`localStorage` tồn tại qua reload và qua lần mở tab sau.",
+        "correctAnswerId": "b",
+        "choices": [
+          { "id": "a", "label": "A", "text": "sessionMemory" },
+          { "id": "b", "label": "B", "text": "localStorage" },
+          { "id": "c", "label": "C", "text": "document.cookieStore" },
+          { "id": "d", "label": "D", "text": "history.state" }
+        ]
+      },
+      {
+        "id": 10,
+        "prompt": "Method nào thêm phần tử vào cuối mảng JavaScript?",
+        "explanation": "`push` thêm phần tử vào cuối mảng và trả về độ dài mới.",
+        "correctAnswerId": "a",
+        "choices": [
+          { "id": "a", "label": "A", "text": "push" },
+          { "id": "b", "label": "B", "text": "shift" },
+          { "id": "c", "label": "C", "text": "slice" },
+          { "id": "d", "label": "D", "text": "concatLast" }
+        ]
+      },
+      {
+        "id": 11,
+        "prompt": "Trong TypeScript, kiểu nào diễn tả 'chuỗi hoặc null'?",
+        "explanation": "Union type dùng ký hiệu `|`, ví dụ `string | null`.",
+        "correctAnswerId": "c",
+        "choices": [
+          { "id": "a", "label": "A", "text": "string && null" },
+          { "id": "b", "label": "B", "text": "nullable<string>" },
+          { "id": "c", "label": "C", "text": "string | null" },
+          { "id": "d", "label": "D", "text": "string?" }
+        ]
+      },
+      {
+        "id": 12,
+        "prompt": "Event nào thường gắn với việc submit một form HTML?",
+        "explanation": "Form phát ra event `submit` khi được gửi đi.",
+        "correctAnswerId": "d",
+        "choices": [
+          { "id": "a", "label": "A", "text": "change" },
+          { "id": "b", "label": "B", "text": "click" },
+          { "id": "c", "label": "C", "text": "input" },
+          { "id": "d", "label": "D", "text": "submit" }
+        ]
+      },
+      {
+        "id": 13,
+        "prompt": "URL nào mở đầu phần query string trong trình duyệt?",
+        "explanation": "Query string bắt đầu bằng dấu hỏi `?`.",
+        "correctAnswerId": "a",
+        "choices": [
+          { "id": "a", "label": "A", "text": "?" },
+          { "id": "b", "label": "B", "text": "#" },
+          { "id": "c", "label": "C", "text": "&" },
+          { "id": "d", "label": "D", "text": "/" }
+        ]
+      },
+      {
+        "id": 14,
+        "prompt": "Hàm nào chạy lặp lại theo chu kỳ thời gian trong JavaScript?",
+        "explanation": "`setInterval` gọi callback lặp lại cho đến khi bị clear.",
+        "correctAnswerId": "b",
+        "choices": [
+          { "id": "a", "label": "A", "text": "setTimeout" },
+          { "id": "b", "label": "B", "text": "setInterval" },
+          { "id": "c", "label": "C", "text": "requestOnce" },
+          { "id": "d", "label": "D", "text": "repeatLater" }
+        ]
+      },
+      {
+        "id": 15,
+        "prompt": "Cặp giá trị nào thường được dùng để căn giữa item theo cả trục ngang và dọc trong Flexbox?",
+        "explanation": "`justify-content: center` căn theo trục chính và `align-items: center` căn theo trục phụ.",
+        "correctAnswerId": "d",
+        "choices": [
+          { "id": "a", "label": "A", "text": "text-align: center + margin: auto" },
+          { "id": "b", "label": "B", "text": "display: flex + gap: center" },
+          { "id": "c", "label": "C", "text": "place-content: center only" },
+          { "id": "d", "label": "D", "text": "justify-content: center + align-items: center" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mfe-orchestra-seminar-15",
+    "slug": "mfe-orchestra-seminar-15",
+    "title": "MFE Orchestra Seminar 15",
+    "description": "Bộ 15 câu hỏi được xây dựng từ nội dung seminar MFE Orchestra, tập trung vào shell, root-config, import map, shared foundation, vận hành module và chiến lược triển khai.",
+    "language": "vi",
+    "timePerQuestionSec": 15,
+    "pointsPerCorrect": 100,
+    "questions": [
+      {
+        "id": 1,
+        "prompt": "Theo seminar, vấn đề nào là một dấu hiệu rõ của monolith frontend?",
+        "explanation": "Slide 'Vì sao Micro Frontend?' nêu rõ monolith frontend dẫn đến codebase phình to, build chậm và deploy rủi ro.",
+        "correctAnswerId": "b",
+        "choices": [
+          { "id": "a", "label": "A", "text": "Mỗi module deploy độc lập ngay từ đầu" },
+          { "id": "b", "label": "B", "text": "Codebase phình to, build chậm, deploy rủi ro" },
+          { "id": "c", "label": "C", "text": "Shared foundation giữ UX nhất quán" },
+          { "id": "d", "label": "D", "text": "Rollback nhanh từng module" }
+        ]
+      },
+      {
+        "id": 2,
+        "prompt": "Trong kiến trúc tổng thể, shell/root-config đóng vai trò gì?",
+        "explanation": "Shell/root-config là orchestration layer, phụ trách routing, import map và lifecycle của các micro app.",
+        "correctAnswerId": "c",
+        "choices": [
+          { "id": "a", "label": "A", "text": "Chỉ render UI Kit và không xử lý route" },
+          { "id": "b", "label": "B", "text": "Chỉ lưu token và session" },
+          { "id": "c", "label": "C", "text": "Điều phối routing, import map và lifecycle" },
+          { "id": "d", "label": "D", "text": "Đóng gói toàn bộ app thành một bundle duy nhất" }
+        ]
+      },
+      {
+        "id": 3,
+        "prompt": "File nào được slide seminar nhắc đến cho import map production?",
+        "explanation": "Slide root-config loading mechanism ghi rõ production dùng `importmap.prod.json`.",
+        "correctAnswerId": "a",
+        "choices": [
+          { "id": "a", "label": "A", "text": "importmap.prod.json" },
+          { "id": "b", "label": "B", "text": "root-config.prod.ts" },
+          { "id": "c", "label": "C", "text": "systemjs.config.json" },
+          { "id": "d", "label": "D", "text": "routes.prod.html" }
+        ]
+      },
+      {
+        "id": 4,
+        "prompt": "Theo flow loading trong seminar, bước nào xảy ra sau khi route được match?",
+        "explanation": "Sau khi route được xác định, SystemJS resolve module name thành bundle URL trước khi tải bundle động.",
+        "correctAnswerId": "d",
+        "choices": [
+          { "id": "a", "label": "A", "text": "Shell build lại toàn bộ app" },
+          { "id": "b", "label": "B", "text": "Browser tự động merge các framework" },
+          { "id": "c", "label": "C", "text": "Module được unmount trước khi load" },
+          { "id": "d", "label": "D", "text": "SystemJS resolve module name thành URL" }
+        ]
+      },
+      {
+        "id": 5,
+        "prompt": "Thứ tự lifecycle mà single-spa gọi cho module là gì?",
+        "explanation": "Seminar nhắc rõ lifecycle của micro frontend là `bootstrap -> mount -> unmount`.",
+        "correctAnswerId": "b",
+        "choices": [
+          { "id": "a", "label": "A", "text": "init -> render -> destroy" },
+          { "id": "b", "label": "B", "text": "bootstrap -> mount -> unmount" },
+          { "id": "c", "label": "C", "text": "build -> deploy -> hydrate" },
+          { "id": "d", "label": "D", "text": "load -> cache -> recycle" }
+        ]
+      },
+      {
+        "id": 6,
+        "prompt": "Shared foundation layer trong seminar KHÔNG bao gồm thành phần nào sau đây?",
+        "explanation": "Shared foundation gồm UI Kit, Auth, Data Access, i18n, Contracts/Shared State. Redis không nằm trong layer này.",
+        "correctAnswerId": "c",
+        "choices": [
+          { "id": "a", "label": "A", "text": "UI Kit / Design System" },
+          { "id": "b", "label": "B", "text": "Data Access / API Client" },
+          { "id": "c", "label": "C", "text": "Redis Cluster" },
+          { "id": "d", "label": "D", "text": "i18n / Locale" }
+        ]
+      },
+      {
+        "id": 7,
+        "prompt": "Seminar mô tả UI Kit được xây dựng theo hướng nào để dùng được với nhiều framework?",
+        "explanation": "UI Kit được mô tả là pure CSS + vanilla TypeScript, framework-agnostic và themeable.",
+        "correctAnswerId": "a",
+        "choices": [
+          { "id": "a", "label": "A", "text": "Pure CSS + vanilla TypeScript" },
+          { "id": "b", "label": "B", "text": "Chỉ có React components" },
+          { "id": "c", "label": "C", "text": "Angular directives only" },
+          { "id": "d", "label": "D", "text": "Svelte store + scoped CSS" }
+        ]
+      },
+      {
+        "id": 8,
+        "prompt": "Theo seminar, cơ chế nào được nhắc đến để đồng bộ session xuyên MFE?",
+        "explanation": "Phần Auth Session nêu localStorage + BroadcastChannel để đồng bộ session giữa các MFE.",
+        "correctAnswerId": "d",
+        "choices": [
+          { "id": "a", "label": "A", "text": "Service Worker + IndexedDB" },
+          { "id": "b", "label": "B", "text": "window.name + cookies only" },
+          { "id": "c", "label": "C", "text": "WebSocket private channel only" },
+          { "id": "d", "label": "D", "text": "localStorage + BroadcastChannel" }
+        ]
+      },
+      {
+        "id": 9,
+        "prompt": "Khi tách module ra repo riêng, seminar khuyên thay import như thế nào?",
+        "explanation": "Slide standalone module ghi rõ thay `@org/*` bằng `@mfe-sols/*` để dùng shared libs qua npm package.",
+        "correctAnswerId": "b",
+        "choices": [
+          { "id": "a", "label": "A", "text": "@org/* -> @local/*" },
+          { "id": "b", "label": "B", "text": "@org/* -> @mfe-sols/*" },
+          { "id": "c", "label": "C", "text": "@org/* -> @vercel/*" },
+          { "id": "d", "label": "D", "text": "@org/* -> @single-spa/*" }
+        ]
+      },
+      {
+        "id": 10,
+        "prompt": "Theo slide Shared Libraries Architecture, build output của shared packages là gì?",
+        "explanation": "Seminar nêu rõ quy trình build bằng tsup để xuất ra ESM + CJS + DTS.",
+        "correctAnswerId": "c",
+        "choices": [
+          { "id": "a", "label": "A", "text": "UMD only" },
+          { "id": "b", "label": "B", "text": "Source maps only" },
+          { "id": "c", "label": "C", "text": "ESM + CJS + DTS" },
+          { "id": "d", "label": "D", "text": "Docker image + Helm chart" }
+        ]
+      },
+      {
+        "id": 11,
+        "prompt": "Phương pháp nào được seminar đánh dấu là recommended default cho cross-MFE data sharing?",
+        "explanation": "Slide cross-MFE data sharing đánh dấu Shared Store với BroadcastChannel + localStorage là recommended default.",
+        "correctAnswerId": "a",
+        "choices": [
+          { "id": "a", "label": "A", "text": "Shared Store với BroadcastChannel + localStorage" },
+          { "id": "b", "label": "B", "text": "Window Event Bus là lựa chọn mặc định" },
+          { "id": "c", "label": "C", "text": "Chỉ dùng URL State cho mọi trường hợp" },
+          { "id": "d", "label": "D", "text": "Backend Store không có latency" }
+        ]
+      },
+      {
+        "id": 12,
+        "prompt": "Trong slide Vue Parcel in React, React host dùng API nào để mount parcel?",
+        "explanation": "Seminar nêu React host sử dụng `mountRootParcel` trong `useEffect` để quản lý lifecycle mount/unmount.",
+        "correctAnswerId": "d",
+        "choices": [
+          { "id": "a", "label": "A", "text": "createPortal" },
+          { "id": "b", "label": "B", "text": "hydrateRoot" },
+          { "id": "c", "label": "C", "text": "renderToPipeableStream" },
+          { "id": "d", "label": "D", "text": "mountRootParcel" }
+        ]
+      },
+      {
+        "id": 13,
+        "prompt": "Dashboard module management trong seminar nằm ở đường dẫn nào?",
+        "explanation": "Slide ports & toggle ghi rõ UI dashboard nằm tại `/status.html` và auto-poll mỗi 5 giây.",
+        "correctAnswerId": "c",
+        "choices": [
+          { "id": "a", "label": "A", "text": "/health.html" },
+          { "id": "b", "label": "B", "text": "/modules.html" },
+          { "id": "c", "label": "C", "text": "/status.html" },
+          { "id": "d", "label": "D", "text": "/toggle.html" }
+        ]
+      },
+      {
+        "id": 14,
+        "prompt": "Theo MVP checklist trong seminar, khi module không load thì nên kiểm tra gì đầu tiên?",
+        "explanation": "Troubleshooting quick reference khuyên kiểm tra import map URL và port khi module không loading.",
+        "correctAnswerId": "a",
+        "choices": [
+          { "id": "a", "label": "A", "text": "Import map URL và port" },
+          { "id": "b", "label": "B", "text": "Theme mode và card classes" },
+          { "id": "c", "label": "C", "text": "Màu button primary" },
+          { "id": "d", "label": "D", "text": "Thứ tự slide trong seminar" }
+        ]
+      },
+      {
+        "id": 15,
+        "prompt": "Theo deployment strategy của seminar, cách nào cho phép zero-downtime deploy mà không cần redeploy shell?",
+        "explanation": "Seminar kết luận chỉ cần update `importmap.prod.json` sang bundle URL mới, shell không cần redeploy.",
+        "correctAnswerId": "b",
+        "choices": [
+          { "id": "a", "label": "A", "text": "Build lại tất cả module trong một bundle" },
+          { "id": "b", "label": "B", "text": "Cập nhật importmap.prod.json sang URL mới" },
+          { "id": "c", "label": "C", "text": "Restart shell sau mỗi lần release" },
+          { "id": "d", "label": "D", "text": "Tắt cache trên toàn bộ CDN" }
+        ]
+      }
+    ]
+  }
+]

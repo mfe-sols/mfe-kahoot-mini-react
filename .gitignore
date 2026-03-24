@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.cache/
+*.log
+.DS_Store
+.env
+.vercel
+
+# Auto-synced from @mfe-sols/ui-kit (postinstall)
+public/ui-kit.css
+public/root-config.css
+public/vendor/

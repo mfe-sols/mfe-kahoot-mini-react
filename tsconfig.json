@@ -1,0 +1,27 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": ["ES2020", "DOM"],
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationDir": "dist",
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@mfe-sols/ui-kit": [
+        "./node_modules/@mfe-sols/ui-kit",
+        "../../node_modules/@mfe-sols/ui-kit",
+        "../../libs/ui-kit/design-system/src/index.ts"
+      ],
+      "@mfe-sols/i18n": [
+        "./node_modules/@mfe-sols/i18n",
+        "../../node_modules/@mfe-sols/i18n",
+        "../../libs/i18n/src/index.ts"
+      ]
+    }
+  },
+  "files": ["src/org-mfe-kahoot-mini-react.tsx"],
+  "include": ["src/**/*"],
+  "exclude": ["src/**/*.test*"]
+}
